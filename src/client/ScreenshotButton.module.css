@@ -1,0 +1,24 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--dsh-foreground-2, rgba(0, 0, 0, 0.65));
+  cursor: pointer;
+  transition: background-color 100ms ease, color 100ms ease;
+}
+
+.button:hover {
+  background: var(--dsh-surface-2, rgba(0, 0, 0, 0.06));
+  color: var(--dsh-foreground-1, rgba(0, 0, 0, 0.9));
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--dsh-accent, #3b82f6);
+  outline-offset: 1px;
+}

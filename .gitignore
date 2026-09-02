@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Build cache
+*.tsbuildinfo
+
+# Generated source maps
+lib/*.map
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log
