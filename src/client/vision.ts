@@ -15,7 +15,11 @@ export function modelSupportsImage(state: ModelDirectoryState): boolean {
     if (group.id !== current.provider) continue
     for (const model of group.models) {
       if (model.id !== current.model) continue
-      return model.inputModalities?.includes('image') === true
+      if (model.inputModalities?.includes('image') === true) return true
+      // Some harness versions do not expose inputModalities on the catalog
+      // entry; fall back to the model id/name signaling vision support.
+      const signature = `${model.id} ${model.name ?? ''}`.toLowerCase()
+      return /vision|visual/.test(signature)
     }
   }
   return false
