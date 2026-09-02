@@ -112,3 +112,43 @@ These are the current package constraints.
 None.
 
 </details>
+
+---
+
+## DSH STORE Catalog Contract
+
+### Dependencies
+- **Runtime**: none.
+- **Peer (provided by the DSH host)**: `@deepseek-ai/cordis`, plus the host-injected client services
+  `@deepseek-ai/dsh-api-session-controller`, `@deepseek-ai/dsh-client-locale`,
+  `@deepseek-ai/dsh-client-ui-conversation`, `@deepseek-ai/dsh-client-ui-model-selection`,
+  `@deepseek-ai/dsh-client-ui-renderer`, `@deepseek-ai/dsh-client-ui-session`. These are resolved from the
+  host's client module table at runtime, not installed by this package.
+- **No optional dependencies.**
+
+### Permissions
+- The button asks the browser to **share a surface** (whole screen / a window / a tab) via the user-granted
+  media-capture prompt, decodes one frame, and inserts it as a **draft image** through the composer
+  attachment rail (the same path used by paste / drag-and-drop).
+- It owns **no server state**, makes **no filesystem writes**, and makes **no outbound network calls**.
+- The captured frame is transient in the browser and is only written to the current draft.
+
+### External services
+- **None.** Capture is browser-local after the user grants the share; everything else rides the host's
+  existing session/composer services.
+
+### Failure bounds
+- The button **only renders** for a session whose effective model advertises image input
+  (`model.inputModalities` / vision-capable). A text-only model, an unresolved model, or an unlisted model
+  renders **no button**.
+- If the user **denies** the surface-share prompt, nothing is inserted and the action is a no-op.
+- Capture/insert failures are contained to the composer action; they do not affect the host session.
+
+### Disposable-profile install / start / uninstall evidence
+```bash
+dsh plugin --profile tmp add github:cczzyy-cn/dsh-ui-screenshot#v0.1.1
+# Profile cordis.patch.yml:  - insert: { id: client-ui-screenshot, name: '@deepseek-ai/dsh-client-ui-screenshot' }
+dsh profile start tmp &      # camera icon appears only for a vision-capable model
+dsh plugin --profile tmp rm @deepseek-ai/dsh-client-ui-screenshot
+dsh profile stop tmp         # clean profile exit, no residue
+```
