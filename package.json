@@ -65,6 +65,10 @@
   "files": [
     "lib/index.js",
     "lib/client.js",
-    "lib/types/**/*.d.ts"
-  ]
+    "lib/types/**/*.d.ts",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
 }
